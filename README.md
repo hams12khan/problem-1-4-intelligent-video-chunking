@@ -17,7 +17,7 @@ An open-source, 100% training-free, production-grade video chunking pipeline bui
 
 ---
 
-## 1. Problem Statement & Plain-English Solution
+## 1. Problem Statement
 
 Imagine a customer gives you a massive video library containing meetings, screen-shares, surveillance feeds, sports broadcasts, concerts, and gameplay. They want to ask text questions to search for specific events or actions across the entire library. Before indexing these videos into a vector database, you must slice (chunk) them into meaningful segments.
 
