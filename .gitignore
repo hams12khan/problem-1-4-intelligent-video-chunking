@@ -1,7 +1,39 @@
+# Byte-compiled / optimized / DLL files
 __pycache__/
-*.pyc
-.venv/
-venv/
+*.py[cod]
+*$py.class
+
+# Pytest / Coverage
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Generated runtime outputs & telemetry
+*.json
+!manifest.json
+*.tmp
+*.log
+
+# Environments
 .env
-node_modules/
+.venv
+env/
+venv/
+ENV/
+
+# OS specific
 .DS_Store
+Thumbs.db
+
+# Large dataset files & video media
+data/
+videos/
+subtitles/
+*.mp4
+*.mkv
+*.avi
+*.wav
+*.zip
+*.tar.gz
+
+

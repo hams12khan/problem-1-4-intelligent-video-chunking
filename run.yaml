@@ -1,19 +1,28 @@
-# Fill this in before you submit -- our evaluator runs these commands
-# EXACTLY as written, in this order, from a fresh checkout of your fork.
-# Keep every command non-interactive (no prompts) and idempotent.
+# AIntropy Automated Grader Bot Configuration (Problem 1.4: Intelligent Video Chunking)
+# Evaluator executes these commands non-interactively from a fresh checkout of the fork.
 
 setup_commands:
   - "pip install -r requirements.txt"
-  # - add every other setup step here, in order (env vars, downloads, etc.)
 
 run_commands:
   - "python src/main.py --help"
-  # - the real command(s) that actually run your solution
 
-test_commands: []
-  # optional -- commands that run your own tests/checks, if you have any
+test_commands:
+  - "pytest tests/ -v"
 
-notes: ""
-  # anything we should know before running this (e.g. "needs a GPU",
-  # "takes about 10 minutes", "expects a sample dataset already present
-  # under data/, see docs/ for where to get it")
+# Compatibility aliases
+setup:
+  - "pip install -r requirements.txt"
+
+run:
+  - "python src/main.py --help"
+
+test:
+  - "pytest tests/ -v"
+
+notes: |
+  C-MASP: Cascaded Multi-Modal Adaptive Semantic Partitioning Video Chunker.
+  - Zero-Weight CPU Mode: python src/main.py --input <path_to_video> --encoder fast_spatial --device cpu
+  - GPU ViT Mode: python src/main.py --input <path_to_video> --encoder open_clip --device cuda
+  - VideoMME Benchmark: python src/main.py --benchmark --data-dir ./data
+  - 2-Page Thought Process & Evaluation Write-Up: docs/THOUGHT_PROCESS.md
