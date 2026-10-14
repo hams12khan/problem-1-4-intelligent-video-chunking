@@ -32,7 +32,7 @@ Imagine a customer gives you a massive video library containing meetings, screen
 3. **Dense Frame-by-Frame Neural Models:**
    * Running heavy VLMs or 3D-CNNs across all 108,000 frames of a 1-hour 30fps video introduces superlinear compute costs and severe latency bottlenecks.
 
-### How C-MASP Solves This (In Simple Terms)
+### How C-MASP Solves This
 **C-MASP (Cascaded Multi-Modal Adaptive Semantic Partitioning)** treats video chunking as a multi-signal optimization problem that runs in **strictly linear $\mathcal{O}(T)$ time**:
 1. **Look Sparsely (Tier 0):** We sample the video at **2.0 FPS** in a single pass—reducing frame decoding work by $15\times$ while preserving 0.5-second temporal precision.
 2. **Extract 3 Lightweight Signals (Tiers 1–3):**
@@ -57,7 +57,7 @@ Because real-world customer video corpora do not come with manual ground-truth "
 ### B. Novel Statistical & Information-Theoretic Metrics *(Custom Suite)*
 To evaluate chunk quality without human labels, we formulated four statistical metrics grounded in directional statistics (von Mises-Fisher spherical dispersion), rate-distortion theory, and linguistic continuity:
 
-| Metric | Plain-English Meaning | Mathematical Formulation | Why It Matters in Production |
+| Metric | Meaning | Mathematical Formulation | Why It Matters in Production |
 | :--- | :--- | :--- | :--- |
 | **$\text{SCR} \uparrow$**<br>*(Semantic Cohesion Ratio)* | **One chunk = One clean scene.**<br>Frames *inside* a chunk should look similar (low internal spread), while *neighboring* chunks should look different (high separation). | $$\text{SCR} = \frac{\frac{1}{K-1} \sum_{k=1}^{K-1} d_{\cos}(\boldsymbol{\mu}_k, \boldsymbol{\mu}_{k+1})}{\frac{1}{K} \sum_{k=1}^K \left( \frac{1}{\vert{}C_k\vert{}} \sum_{t \in C_k} d_{\cos}(\mathbf{e}_t, \boldsymbol{\mu}_k) \right) + \epsilon}$$ | Analogous to the **Calinski-Harabasz / Fisher Discriminant Ratio** on the unit hypersphere $\mathbb{S}^{D-1}$. High $\text{SCR}$ proves each chunk maps to a sharp, unblurred vector embedding. |
 | **$\text{DBFI} \downarrow$**<br>*(Discourse Boundary Fracture Index)* | **Never cut people off mid-sentence.**<br>The fraction of internal chunk boundaries that slice through an active spoken utterance. | $$\text{DBFI} = \frac{1}{K-1} \sum_{k=1}^{K-1} \mathbb{I}\Big(\exists m : u_m^{\text{start}} + \delta < \tau_k < u_m^{\text{end}} - \delta\Big)$$ | **Lower is better ($0.0000 = 0\%$ broken sentences).** Chopping a sentence in half splits context across two chunks and ruins RAG text retrieval. |
